@@ -1,0 +1,23 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const jobServices_1 = __importDefault(require("./services/jobServices"));
+const jobapplications_1 = __importDefault(require("./route/jobapplications"));
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
+app.get('/', (_req, res) => {
+    res.send(jobServices_1.default.getEntries());
+});
+app.get('/ping', (_req, res) => {
+    console.log('someone pinged here');
+    res.send('pong');
+});
+// route to handle job applications
+app.use('/api/jobapps', jobapplications_1.default);
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port http://localhost:${PORT}/ping`);
+});
